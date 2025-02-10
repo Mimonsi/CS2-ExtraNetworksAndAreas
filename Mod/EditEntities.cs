@@ -104,11 +104,11 @@ namespace ExtraNetworksAndAreas.Mod
 					prefabUI = prefab.AddComponent<UIObject>();
 					prefabUI.active = true;
 					prefabUI.m_IsDebugObject = false;
-					prefabUI.m_Priority = 100;
+					prefabUI.m_Priority = 1000;
 				}
 
 				if (prefab.name.Contains("Integrated"))
-					prefabUI.m_Priority = 110;
+					prefabUI.m_Priority = 900;
 
 				prefabUI.m_Group?.RemoveElement(entity);
 
@@ -152,7 +152,10 @@ namespace ExtraNetworksAndAreas.Mod
 						prefabUI.active = true;
 						prefabUI.m_IsDebugObject = false;
 						prefabUI.m_Icon = GetIcon(prefab);
-						prefabUI.m_Priority = 100;
+						/*if (prefab.name == "Double Train Track - Twoway") // Station tracks at the end
+							prefabUI.m_Priority = 900;
+						else*/
+							prefabUI.m_Priority = 900;
 					}
 					else
 					{
@@ -160,6 +163,8 @@ namespace ExtraNetworksAndAreas.Mod
 						if (!i.Contains("placeholder"))
 							prefabUI.m_Icon = i;
 					}
+
+					Log("Track: " + prefab.name + " with priority: " + prefabUI.m_Priority);
 
 					prefabUI.m_Group?.RemoveElement(entity);
 					if (prefab.m_TrackType == TrackTypes.Train)
