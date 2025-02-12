@@ -64,7 +64,7 @@ Many people helped me in the creation of this mod. Especially I would like to th
 	<!--Version of the mod-->
 	<ModVersion Value="1.3.0" />
 	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.1.*" />
+	<GameVersion Value="1.2.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="75724" /> <!-- Extra Lib -->
 	<Dependency Id="75426" /> <!-- l18n Everywhere -->
@@ -80,4 +80,5 @@ Many people helped me in the creation of this mod. Especially I would like to th
 	<ExternalLink Type="github" Url="https://github.com/kosch104/CS2-ExtraNetworksAndAreas" />
 	<ExternalLink Type="discord" Url="https://discord.gg/vd7HXnpPJf" />
 	<ExternalLink Type="paypal" Url="https://www.paypal.com/paypalme/KonstantinSchwarze" />
+	<ExternalLink Type="kofi" Url="https://ko-fi.com/mimonsi" />
 </Publish>
