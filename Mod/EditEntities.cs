@@ -164,8 +164,6 @@ namespace ExtraNetworksAndAreas.Mod
 							prefabUI.m_Icon = i;
 					}
 
-					Log("Track: " + prefab.name + " with priority: " + prefabUI.m_Priority);
-
 					prefabUI.m_Group?.RemoveElement(entity);
 					if (prefab.m_TrackType == TrackTypes.Train)
 						prefabUI.m_Group = PrefabsHelper.GetUIAssetCategoryPrefab("TransportationTrain");
