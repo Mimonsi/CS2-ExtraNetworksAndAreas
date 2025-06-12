@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Extra.Lib;
-using Extra.Lib.Helper;
+using ExtraLib.ClassExtension;
+using ExtraLib.Helpers;
 using Game.Net;
 using Game.Prefabs;
 using Unity.Collections;
@@ -15,42 +15,42 @@ namespace ExtraNetworksAndAreas.Mod
 
 			EntityQueryDesc spacesEntityQueryDesc = new()
 			{
-				All = [
+				All = new [] {
 					ComponentType.ReadOnly<SpaceData>(),
-				],
-				None = [
+				},
+				None = new [] {
 					ComponentType.ReadOnly<PlaceholderObjectElement>(),
-				]
+				}
 			};
 
 			EntityQueryDesc pathwaysEntityQueryDesc = new()
 			{
-				All = [
+				All = new[] {
 					ComponentType.ReadOnly<PathwayData>(),
-				],
-				None = [
+				},
+				None = new [] {
 					ComponentType.ReadOnly<PlaceholderObjectElement>(),
-				]
+				}
 			};
 
 			EntityQueryDesc tracksEntityQueryDesc = new()
 			{
-				All = [
+				All = new[] {
 					ComponentType.ReadOnly<TrackData>(),
-				],
-				None = [
+				},
+				None = new [] {
 					ComponentType.ReadOnly<PlaceholderObjectElement>(),
-				]
+				}
 			};
 
 			EntityQueryDesc markerObjectsEntityQueryDesc = new EntityQueryDesc
 			{
 				All =
-				[
+				new [] {
 					ComponentType.ReadOnly<UIObjectData>()
-				],
+				},
 				Any =
-				[
+				new [] {
 					ComponentType.ReadOnly<TrafficSpawnerData>(),
 					ComponentType.ReadOnly<CreatureSpawnData>(),
 					ComponentType.ReadOnly<ElectricityConnectionData>(),
@@ -58,13 +58,13 @@ namespace ExtraNetworksAndAreas.Mod
 					//ComponentType.ReadOnly<NetObjectData>(),
 					//ComponentType.ReadOnly<NetData>(),
 					ComponentType.ReadOnly<TransportStopData>(),
-				]
+				}
 			};
 
-			ExtraLib.AddOnEditEnities(new(OnEditSpacesEntities, spacesEntityQueryDesc));
-			ExtraLib.AddOnEditEnities(new(OnEditPathwayEntities, pathwaysEntityQueryDesc));
-			ExtraLib.AddOnEditEnities(new(OnEditTrackEntities, tracksEntityQueryDesc));
-			ExtraLib.AddOnEditEnities(new(OnEditMarkerObjectEntities, markerObjectsEntityQueryDesc));
+			ExtraLib.EL.AddOnEditEnities(new(OnEditSpacesEntities, spacesEntityQueryDesc));
+			ExtraLib.EL.AddOnEditEnities(new(OnEditPathwayEntities, pathwaysEntityQueryDesc));
+			ExtraLib.EL.AddOnEditEnities(OnEditTrackEntities, tracksEntityQueryDesc);
+			ExtraLib.EL.AddOnEditEnities(OnEditMarkerObjectEntities, markerObjectsEntityQueryDesc);
 			// TransportStopData
 		}
 
@@ -91,7 +91,7 @@ namespace ExtraNetworksAndAreas.Mod
 		{
 			foreach (Entity entity in entities)
 			{
-				ExtraLib.m_PrefabSystem.TryGetPrefab(entity, out MarkerObjectPrefab prefab);
+				ExtraLib.EL.m_PrefabSystem.TryGetPrefab(entity, out MarkerObjectPrefab prefab);
 
 				if (prefab == null)
 				{
@@ -133,7 +133,7 @@ namespace ExtraNetworksAndAreas.Mod
 
 				prefabUI.m_Group.AddElement(entity);
 
-				ExtraLib.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
+				ExtraLib.EL.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
 			}
 
 			Log("Marker Object Entities Edited.");
@@ -143,7 +143,7 @@ namespace ExtraNetworksAndAreas.Mod
 		{
 			foreach (Entity entity in entities)
 			{
-				if (ExtraLib.m_PrefabSystem.TryGetPrefab(entity, out TrackPrefab prefab))
+				if (ExtraLib.EL.m_PrefabSystem.TryGetPrefab(entity, out TrackPrefab prefab))
 				{
 					var prefabUI = prefab.GetComponent<UIObject>();
 					if (prefabUI == null)
@@ -152,6 +152,8 @@ namespace ExtraNetworksAndAreas.Mod
 						prefabUI.active = true;
 						prefabUI.m_IsDebugObject = false;
 						prefabUI.m_Icon = GetIcon(prefab);
+						if (prefab.name.ToLower().Contains("bridge"))
+							continue;
 						/*if (prefab.name == "Double Train Track - Twoway") // Station tracks at the end
 							prefabUI.m_Priority = 900;
 						else*/
@@ -173,7 +175,7 @@ namespace ExtraNetworksAndAreas.Mod
 						prefabUI.m_Group = PrefabsHelper.GetUIAssetCategoryPrefab("TransportationTram");
 					prefabUI.m_Group.AddElement(entity);
 
-					ExtraLib.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
+					ExtraLib.EL.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
 				}
 			}
 			Log("Track Entities Edited.");
@@ -183,7 +185,7 @@ namespace ExtraNetworksAndAreas.Mod
 		{
 			foreach (Entity entity in entities)
 			{
-				if (ExtraLib.m_PrefabSystem.TryGetPrefab(entity, out PathwayPrefab prefab))
+				if (ExtraLib.EL.m_PrefabSystem.TryGetPrefab(entity, out PathwayPrefab prefab))
 				{
 					var prefabUI = prefab.GetComponent<UIObject>();
 					if (prefabUI == null)
@@ -199,7 +201,7 @@ namespace ExtraNetworksAndAreas.Mod
 					prefabUI.m_Group = PrefabsHelper.GetUIAssetCategoryPrefab("Pathways");
 					prefabUI.m_Group.AddElement(entity);
 
-					ExtraLib.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
+					ExtraLib.EL.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
 				}
 			}
 			Log("Pathway Entities Edited.");
@@ -209,7 +211,7 @@ namespace ExtraNetworksAndAreas.Mod
 		{
 			foreach (Entity entity in entities)
 			{
-				if (ExtraLib.m_PrefabSystem.TryGetPrefab(entity, out SpacePrefab prefab))
+				if (ExtraLib.EL.m_PrefabSystem.TryGetPrefab(entity, out SpacePrefab prefab))
 				{
 					var prefabUI = prefab.GetComponent<UIObject>();
 					if (prefabUI == null)
@@ -225,7 +227,7 @@ namespace ExtraNetworksAndAreas.Mod
 					prefabUI.m_Group = PrefabsHelper.GetOrCreateUIAssetCategoryPrefab("Landscaping", "Spaces", Icons.GetIcon, "Pathways");
 					prefabUI.m_Group.AddElement(entity);
 
-					ExtraLib.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
+					ExtraLib.EL.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
 				}
 			}
 			Log("Space Entities Edited.");

@@ -1,11 +1,11 @@
 ﻿using Colossal.Logging;
-using Extra.Lib.Debugger;
 using Game;
 using Game.Modding;
 using Game.SceneFlow;
 using HarmonyLib;
 using System.IO;
 using System.Linq;
+using ExtraLib.Debugger;
 using ExtraNetworksAndAreas.Mod;
 
 namespace ExtraNetworksAndAreas

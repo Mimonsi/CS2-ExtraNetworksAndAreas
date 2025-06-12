@@ -13,7 +13,7 @@ namespace ExtraNetworksAndAreas.Mod
 
         internal static void LoadIcons(string path)
         {
-            Extra.Lib.UI.Icons.LoadIconsFolder(IconsResourceKey, path);
+            ExtraLib.Helpers.Icons.LoadIconsFolder(IconsResourceKey, path);
         }
 
         public static string GetIcon(PrefabBase prefab)
