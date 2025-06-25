@@ -12,6 +12,8 @@
   "Assets.DESCRIPTION[Double Subway Track - Station Side]": "Double track with station platform in the middle. Platform only shows up when stop is placed.",
   "Assets.DESCRIPTION[Twoway Subway Track]": "Single track that allows subway trains to run in both directions, but not at the same time.",
   "Assets.DESCRIPTION[Twoway Train Track]": "Single track that allows trains to run in both directions, but not at the same time.",
+  "Assets.DESCRIPTION[Invisible Airplane Taxiway - Oneway]": "Oneway taxiway for airplanes.",
+  "Assets.DESCRIPTION[Invisible Airplane Taxiway - Twoway]": "Twoway taxiway for airplanes.",
 
   "Assets.DESCRIPTION[Invisible Pedestrian Path]": "2 Direction | 1 Lane Ped Pedestrian Path.",
   "Assets.DESCRIPTION[Invisible Road Path - 2xTwoway]": "2 Direction | 2 Lane Car and Pedestrian Road.",

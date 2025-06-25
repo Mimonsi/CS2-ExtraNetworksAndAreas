@@ -32,6 +32,16 @@ namespace ExtraNetworksAndAreas.Mod
 					ComponentType.ReadOnly<PlaceholderObjectElement>(),
 				}
 			};
+			
+			EntityQueryDesc taxiwaysEntityQueryDesc = new()
+			{
+				All = new[] {
+					ComponentType.ReadOnly<TaxiwayData>(),
+				},
+				None = new [] {
+					ComponentType.ReadOnly<PlaceholderObjectElement>(),
+				}
+			};
 
 			EntityQueryDesc tracksEntityQueryDesc = new()
 			{
@@ -61,10 +71,11 @@ namespace ExtraNetworksAndAreas.Mod
 				}
 			};
 
-			ExtraLib.EL.AddOnEditEnities(new(OnEditSpacesEntities, spacesEntityQueryDesc));
-			ExtraLib.EL.AddOnEditEnities(new(OnEditPathwayEntities, pathwaysEntityQueryDesc));
+			ExtraLib.EL.AddOnEditEnities(OnEditSpacesEntities, spacesEntityQueryDesc);
+			ExtraLib.EL.AddOnEditEnities(OnEditPathwayEntities, pathwaysEntityQueryDesc);
 			ExtraLib.EL.AddOnEditEnities(OnEditTrackEntities, tracksEntityQueryDesc);
 			ExtraLib.EL.AddOnEditEnities(OnEditMarkerObjectEntities, markerObjectsEntityQueryDesc);
+			ExtraLib.EL.AddOnEditEnities(OnEditTaxiwayEntities, taxiwaysEntityQueryDesc);
 			// TransportStopData
 		}
 
@@ -179,6 +190,51 @@ namespace ExtraNetworksAndAreas.Mod
 				}
 			}
 			Log("Track Entities Edited.");
+		}
+		
+		private static void OnEditTaxiwayEntities(NativeArray<Entity> entities)
+		{
+			foreach (Entity entity in entities)
+			{
+				if (ExtraLib.EL.m_PrefabSystem.TryGetPrefab(entity, out TaxiwayPrefab prefab))
+				{
+					if (!prefab.name.Contains("Airplane Taxiway"))
+					{
+						Log("Skipping entity: " + prefab.name + " as it is not a Taxiway prefab.");
+						continue;
+					}
+					var prefabUI = prefab.GetComponent<UIObject>();
+					if (prefabUI == null)
+					{
+						prefabUI = prefab.AddComponent<UIObject>();
+						prefabUI.active = true;
+						prefabUI.m_IsDebugObject = false;
+						prefabUI.m_Icon = GetIcon(prefab);
+						prefabUI.m_Priority = 900;
+					}
+					else
+					{
+						var i = GetIcon(prefab);
+						if (!i.Contains("placeholder"))
+							prefabUI.m_Icon = i;
+					}
+					
+
+					var category = PrefabsHelper.GetUIAssetCategoryPrefab("TransportationAir");
+					if (category == null)
+					{
+						return;
+					}
+					
+					prefabUI.m_Group?.RemoveElement(entity);
+					if (prefab.m_Taxiway)
+						prefabUI.m_Group = category;
+					prefabUI.m_Group.AddElement(entity);
+
+					ExtraLib.EL.m_EntityManager.AddOrSetComponentData(entity, prefabUI.ToComponentData());
+				}
+			}
+			Log("Taxiway Entities Edited.");
 		}
 
 		private static void OnEditPathwayEntities(NativeArray<Entity> entities)
